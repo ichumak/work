@@ -1,0 +1,47 @@
+#iad_iad_homepage:
+#    path:     /hello/{name}
+#    defaults: { _controller: IadIadBundle:Default:index }
+_otg:
+    pattern:  /iad/otg/{name}
+    defaults: { _controller: IadIadBundle:Otg:index, name:1 }
+    requirements:
+        name:  \d+
+_itg:
+    pattern:  /iad/itg/{name}
+    defaults: { _controller: IadIadBundle:Itg:index, name:1 }
+    requirements:
+        name:  \d+
+_otg_tonumber:
+    pattern:  /iad/otg_tonumber/{name}
+    defaults: { _controller: IadIadBundle:Otg:index }
+    requirements:
+        name:  \d+
+_itg_tonumber:
+    pattern:  /iad/itg_tonumber/{name}
+    defaults: { _controller: IadIadBundle:Itg:index }
+    requirements:
+        name:  \d+
+#_number2:
+#    pattern:  /iad/number/add/{name}
+#    defaults: { _controller: IadIadBundle:Number:add }
+_number3:
+    pattern:  /iad/number/print/{name}
+    defaults: { _controller: IadIadBundle:Number:print }
+    
+#_number:
+#    pattern:  /iad/number/{name}
+#    defaults: { _controller: IadIadBundle:Number:index }	
+#_js:
+#    pattern:  /js/jquery.js
+#    defaults: { _controller: IadIadBundle:Number:index }
+some_identifier:
+ resource: "@IadIadBundle/Controller/DataController.php"
+ type: annotation
+ 
+_data_number_root:
+    pattern:  /iad/crud/
+    defaults: { _controller: IadIadBundle:Default:index }
+
+iad_iad_homepage:
+    pattern:  /iad/{name}
+    defaults: { _controller: IadIadBundle:Default:index }

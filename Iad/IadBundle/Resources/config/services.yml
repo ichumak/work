@@ -1,0 +1,7 @@
+parameters:
+#    iad_iad.example.class: Iad\IadBundle\Example
+
+services:
+#    iad_iad.example:
+#        class: %iad_iad.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

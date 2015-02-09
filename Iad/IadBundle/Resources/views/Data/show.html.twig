@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Data</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Otg</th>
+                <td>{{ entity.otg }}</td>
+            </tr>
+            <tr>
+                <th>Itg</th>
+                <td>{{ entity.itg }}</td>
+            </tr>
+            <tr>
+                <th>Dt_charge_start</th>
+                <td>{{ entity.dtchargestart|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Dt_charge_start_m100</th>
+                <td>{{ entity.dtchargestartm100 }}</td>
+            </tr>
+            <tr>
+                <th>Call_type_id</th>
+                <td>{{ entity.calltypeid }}</td>
+            </tr>
+            <tr>
+                <th>Destination</th>
+                <td>{{ entity.destination }}</td>
+            </tr>
+            <tr>
+                <th>Called_number</th>
+                <td>{{ entity.callednumber }}</td>
+            </tr>
+            <tr>
+                <th>Dt_call_end</th>
+                <td>{{ entity.dtcallend|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Dt_call_end_m100</th>
+                <td>{{ entity.dtcallendm100 }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('number') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('number_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

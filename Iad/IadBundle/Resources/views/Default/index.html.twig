@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+<title>{{mytitle}}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--<style type="text/css" title="currentStyle">
+			@import "css/demo_page.css";
+			@import "css/demo_table.css";
+			@import "js/tipTip.css";
+		</style>
+-->
+
+{% block stylesheets %} 
+<style type="text/css" title="currentStyle">
+    {% stylesheets '@IadIadBundle/Resources/public/css/*' filter='cssrewrite' %}
+        @import "{{ asset_url }}"; 
+    {% endstylesheets %}
+</style>
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts '@IadIadBundle/Resources/public/js/jquery-1.4.3.min.js' output='/js'%}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+	{% javascripts '@IadIadBundle/Resources/public/js/jquery.dataTables.js' output='/js'%}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+	{% javascripts '@IadIadBundle/Resources/public/js/jquery.jeditable.js' output='/js'%}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+	{% javascripts '@IadIadBundle/Resources/public/js/KeyTable.js' output='/js'%}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+	{% javascripts '@IadIadBundle/Resources/public/js/jquery.tipTip.js' output='/js'%}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function () {
+	});
+</script>	
+</head>
+<body>
+{{mytext}}
+<form action="/app_dev.php/demo/secured/login_check" method="post" id="login">
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="_username" value="" />
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="_password" />
+        </div>
+
+        <button type="submit" class="sf-button">
+            <span class="border-l">
+                <span class="border-r">
+                    <span class="btn-bg">Login</span>
+                </span>
+            </span>
+        </button>
+    </form>
+</body>

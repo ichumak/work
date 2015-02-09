@@ -1,0 +1,58 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Data list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+				<th>Id</th>
+                <th>Otg</th>
+                <th>Itg</th>
+                <th>Dt_charge_start</th>
+                <th>Dt_charge_start_m100</th>
+                <th>Call_type_id</th>
+                <th>Destination</th>
+                <th>Called_number</th>
+                <th>Dt_call_end</th>
+                <th>Dt_call_end_m100</th>
+                
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+				<td><a href="{{ path('number_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.otg }}</td>
+                <td>{{ entity.itg }}</td>
+                <td>{% if entity.dtchargestart %}{{ entity.dtchargestart|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.dtchargestartm100 }}</td>
+                <td>{{ entity.calltypeid }}</td>
+                <td>{{ entity.destination }}</td>
+                <td>{{ entity.callednumber }}</td>
+                <td>{% if entity.dtcallend %}{{ entity.dtcallend|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.dtcallendm100 }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('number_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('number_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('number_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<head>
+<title>{{mytitle}}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--<style type="text/css" title="currentStyle">
+			@import "css/demo_page.css";
+			@import "css/demo_table.css";
+			@import "js/tipTip.css";
+		</style>
+-->
+
+{% block stylesheets %} 
+<style type="text/css" title="currentStyle">
+    {% stylesheets '@IadIadBundle/Resources/public/css/*' filter='cssrewrite' %}
+        @import "{{ asset_url }}"; 
+    {% endstylesheets %}
+</style>
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts '@IadIadBundle/Resources/public/js/jquery-1.4.3.min.js' output='/js'%}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+	{% javascripts '@IadIadBundle/Resources/public/js/jquery.dataTables.js' output='/js'%}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+	{% javascripts '@IadIadBundle/Resources/public/js/jquery.jeditable.js' output='/js'%}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+	{% javascripts '@IadIadBundle/Resources/public/js/KeyTable.js' output='/js'%}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+	{% javascripts '@IadIadBundle/Resources/public/js/jquery.tipTip.js' output='/js'%}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function () {
+		$("fieldset").hide();
+	//	});
+/////////////////////////////////////////////////		
+		$("#example").dataTable({
+	//	"oLanguage": {"sUrl": "css/ru_RU.txt"},
+		"bProcessing": true,
+		"iDisplayLength":100,
+		"iDefaultSortIndex": 2,
+		"sDefaultSortDirection": "desc",
+	//	"sAjaxSource": 'tpl_file.txt',
+		"fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+						if ((aData[5] == "101" && aData[9] == "100501111") || (aData[5] == "101" && aData[9] == "100501112") || aData[7] == "100" || aData[5] == "100")
+						{
+		
+					$('td:eq(0)', nRow).html( '' );
+					$('td:eq(1)', nRow).html( '' );
+					$('td:eq(2)', nRow).html( '' );
+					$('td:eq(3)', nRow).html( '' );
+					$('td:eq(4)', nRow).html( '' );
+					$('td:eq(5)', nRow).html( '' );
+					$('td:eq(6)', nRow).html( '' );
+					$('td:eq(7)', nRow).html( '' );
+					$('td:eq(8)', nRow).html( '' );
+					$('td:eq(9)', nRow).html( '' );
+					$('td:eq(10)', nRow).html( '' );
+						}
+						return nRow;
+					},
+					"aoColumnDefs": [ {
+							"sClass": "center",
+							"aTargets": [ -1, -2 ]
+					} ]
+
+			  	
+
+  	});
+				var keys = new KeyTable( {
+					"table": document.getElementById('example')
+				} );
+				
+				/* Apply a return key event to each cell in the table */
+				keys.event.action( null, null, function (nCell) {
+					/* Block KeyTable from performing any events while jEditable is in edit mode */
+					keys.block = true;
+					
+					/* Initialise the Editable instance for this table */
+					$(nCell).editable( function (sVal) {
+						/* Submit function (local only) - unblock KeyTable */
+						keys.block = false;
+						return sVal;
+					}, { 
+						"onblur": 'submit', 
+						"onreset": function(){ 
+							/* Unblock KeyTable, but only after this 'esc' key event has finished. Otherwise
+							 * it will 'esc' KeyTable as well
+							 */
+							setTimeout( function () {keys.block = false;}, 0); 
+						}
+					} );
+					
+					/* Dispatch click event to go into edit mode - Saf 4 needs a timeout... */
+					setTimeout( function () { $(nCell).click(); }, 0 );
+				} );
+			
+			$('#SendToExcel').click(function(){SendToExcel();});
+			} );
+
+</script>
+</head>
+	<body id="dt_example">
+	<table align="center">
+	<thead><tr>
+	<th>
+	<a href="/index.php" title="main">Начало</a><br>
+	</th>
+	<th>
+	<a href="/otg.php" title="Go to Out tranc group">OTG</a><br>
+	<a href="/itg.php" title="Go to Iut tranc group">ITG</a><br>
+	</th><th>
+	<a href="/otg_tonumber.php" title="Go to Sotni" align="right">OTG group</a><br>
+	<a href="/itg_tonumber.php" title="Go to Sotni" align="right">ITG group</a><br>
+	</th>
+	<th><a href="/fetch_assoc.php" title="Go to Revsh" align="right">Revsh</a><br></th>
+	</tr>
+	</thead>
+	</table>
+		<table align="right">
+		<thead>
+		</thead>
+		<tr>
+		<th>
+		<a href="/sql.html" title="Setting" align="right" target="_blank">Налаштування</a>
+		<!--<br><a href="" class="someClass" title="Погода">Погода</a>-->
+		<br><a href="/mail_f27.html" class="f27Class" title="">розсилка пошти(27)</a>
+		<br><a href="/mail_f28.html" class="f28Class" title="">розсилка пошти(28)</a>
+		<br><a href="/hourly.php" class="hourly" title="">Статистика погодинно</a>
+		</th>
+		</tr>
+		</table><fieldset><legend>Дата:<div id="kdata">2015-01-21</div>время:<div id="ktime">12</div>Транкова група<div id="kitg">____</div></legend></fieldset>
+ <form action="itg.php" id="orderForm1" method="POST">
+ <br><label>Дата:</label><br/>
+            <select id="styleDropdown" name="kdata">
+              <option value="____-__-__">нет</option>
+			 <option value='2015-01-21'>2015-01-21</option><option value='2015-01-20'>2015-01-20</option><option value='2015-01-19'>2015-01-19</option><option value='2015-01-18'>2015-01-18</option><option value='2015-01-17'>2015-01-17</option><option value='2015-01-16'>2015-01-16</option><option value='2015-01-15'>2015-01-15</option><option value='2015-01-14'>2015-01-14</option>            </select>
+			<br><label>Время:</label><br/>
+            <select id="styleDropdown" name="ktime">
+              <option value="__">всі</option>
+			  			<option value="00">00</option>
+			<option value="01">01</option>
+			<option value="02">02</option>
+			<option value="03">03</option>
+			<option value="04">04</option>
+			<option value="05">05</option>
+			<option value="06">06</option>
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+            </select>
+			<br>
+			<label>Выбрать ITG:</label><br/>
+            <select id="styleDropdown" name="kitg">
+              <option value="____">Все</option>
+			  <option value="1">Магистрали</option>
+			  <option value="2">Городские ATC</option>
+			  <option value="3">НТК,Моб.оп.,НМЗ...</option>
+			  <option value="4">Зона</option>
+			  <option value="5">Зона+ATC</option>
+			  <option value='0000'>0000</option><option value='0058'>0058</option><option value='0100'>0100</option><option value='0101'>0101</option><option value='0150'>0150</option><option value='0156'>0156</option><option value='0158'>0158</option><option value='0160'>0160</option><option value='0166'>0166</option><option value='0170'>0170</option><option value='0172'>0172</option><option value='0174'>0174</option><option value='0176'>0176</option><option value='0178'>0178</option><option value='0182'>0182</option><option value='0184'>0184</option><option value='0186'>0186</option><option value='0188'>0188</option><option value='0190'>0190</option><option value='0192'>0192</option><option value='0194'>0194</option><option value='0196'>0196</option><option value='0200'>0200</option><option value='0202'>0202</option><option value='0232'>0232</option><option value='0235'>0235</option><option value='0237'>0237</option><option value='0240'>0240</option><option value='0245'>0245</option><option value='0248'>0248</option><option value='0257'>0257</option><option value='0258'>0258</option><option value='0433'>0433</option><option value='0438'>0438</option><option value='0441'>0441</option><option value='0442'>0442</option><option value='0456'>0456</option><option value='0473'>0473</option><option value='0506'>0506</option><option value='0532'>0532</option><option value='0550'>0550</option><option value='0555'>0555</option><option value='0556'>0556</option><option value='0563'>0563</option><option value='0564'>0564</option><option value='0565'>0565</option><option value='1020'>1020</option><option value='1022'>1022</option><option value='1032'>1032</option><option value='1039'>1039</option><option value='1044'>1044</option><option value='1094'>1094</option><option value='1095'>1095</option><option value='1103'>1103</option><option value='1106'>1106</option><option value='1126'>1126</option><option value='1127'>1127</option><option value='1135'>1135</option><option value='1150'>1150</option><option value='1167'>1167</option><option value='1230'>1230</option><option value='1231'>1231</option><option value='1234'>1234</option><option value='1236'>1236</option><option value='1243'>1243</option><option value='1244'>1244</option><option value='1246'>1246</option><option value='1247'>1247</option><option value='1249'>1249</option><option value='1250'>1250</option><option value='1251'>1251</option><option value='1252'>1252</option><option value='1253'>1253</option><option value='1254'>1254</option><option value='1255'>1255</option><option value='1275'>1275</option><option value='1332'>1332</option><option value='1336'>1336</option><option value='1344'>1344</option><option value='1353'>1353</option><option value='1394'>1394</option><option value='1544'>1544</option>            </select>
+			<button type="submit" id="testButton" value="return false">Execute</button>
+ </form>
+<H1>Якість ITG</H1>
+<form action="index.php" id="orderForm">
+ Відкривать в новому вікні:<input id="myself" type="checkbox" name="myself"/>
+<table cellpadding="0" cellspacing="0" border="1" class="display KeyTable" id="example">
+	<thead>
+		<tr>
+			<th>№</th>
+			<th>ITG</th>
+			<th>Загальна кількість</th>
+			<th>Успішно</th>
+			<th>Успішно (%)</th>
+			<th>Коментарі</th>
+			
+			
+		</tr>
+	</thead>
+<tbody> 
+ {% for data in dataAll %}
+<tr><td>{# data.id|e #}</td>
+	<td>{{ data.itg|e }}</td>
+	<td>{{ data.COUNT_ALL|e }}</td>
+	<td>{{data.NOT_NULL_1}}{# data.getDtChargeStart|date('Y-m-d h:m:s') #}</td>
+	<td>{# data.getDtCallEnd|date('Y-m-d h:m:s') #}</td>
+	<td>{# data.getCalledNumber #}</td></tr>
+  {% else %}
+    <li><em>нет пользователей</em></li>
+  {% endfor %}
+</tbody>
+	<tfoot>
+		<tr>
+			<th>№</th>
+			<th>ITG</th>
+			<th>Загальна кількість</th>
+			<th>Успішно</th>
+			<th>Успішно (%)</th>
+			<th>Коментарі</th>
+			
+			
+		</tr>
+	</tfoot>
+</table> 
+ 
+ 
+</form>
+</body>
+</html>

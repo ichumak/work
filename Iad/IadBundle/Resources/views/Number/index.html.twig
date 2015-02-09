@@ -1,0 +1,121 @@
+<title>{{ mytitle }}</title>
+{% block title %}Symfony - Welcome{% endblock %}
+
+{% block content_header '' %}
+
+{% block javascripts %}
+    {% javascripts '@IadIadBundle/Resources/public/js/*' output='/js/*'%}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block javascriptc %}
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function () {
+	var mykdata=$('#kdata').text();
+	var myktime=$('#ktime').text();
+	var myktime_end=$('#ktime_end').text();
+	var mykotg=$('#kotg').text();
+	var mykitg=$('#kitg').text();
+	var myknumber=$('#knumber').text();
+	$("fieldset").hide();
+	$("form select[name='kdata'] option[value="+mykdata+"]").attr("selected", "selected");
+	$("form select[name='ktime'] option[value="+myktime+"]").attr("selected", "selected");
+	$("form select[name='ktime_end'] option[value="+myktime_end+"]").attr("selected", "selected");
+	$("form select[name='kotg'] option[value="+mykotg+"]").attr("selected", "selected");
+	$("form select[name='kitg'] option[value="+mykitg+"]").attr("selected", "selected");
+	$("form [name='knumber']").attr("value", myknumber);
+	
+	$("#SendToExcel").dblclick(function(){ 
+										
+										$("<input name=\"xml\" value=\"xml\" type=\"hidden\">").appendTo("form");
+										$("form#orderForm").attr({'action':'fetch_assocx.php','target':'blanc'});
+										$("form#orderForm").submit(); 
+									});		
+	
+	
+	$("td[id^='sel_']").dblclick(function(){
+											$("form#orderForm1").attr('action','featch_assoc_head.php');
+											$("form#orderForm1").submit();
+											
+
+											});
+		$("#example").dataTable({
+	//	"oLanguage": {"sUrl": "css/ru_RU.txt"},
+		"bProcessing": true,
+		"iDisplayLength":100,
+		"iDefaultSortIndex": 2,
+		"sDefaultSortDirection": "desc",
+	//	"sAjaxSource": 'tpl_file.txt',
+		"fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+						if ((aData[5] == "101" && aData[9] == "100501111") || (aData[5] == "101" && aData[9] == "100501112") || aData[7] == "100" || aData[5] == "100")
+						{
+		
+					$('td:eq(0)', nRow).html( '' );
+					$('td:eq(1)', nRow).html( '' );
+					$('td:eq(2)', nRow).html( '' );
+					$('td:eq(3)', nRow).html( '' );
+					$('td:eq(4)', nRow).html( '' );
+					$('td:eq(5)', nRow).html( '' );
+					$('td:eq(6)', nRow).html( '' );
+					$('td:eq(7)', nRow).html( '' );
+					$('td:eq(8)', nRow).html( '' );
+					$('td:eq(9)', nRow).html( '' );
+					$('td:eq(10)', nRow).html( '' );
+						}
+						return nRow;
+					},
+					"aoColumnDefs": [ {
+							"sClass": "center",
+							"aTargets": [ -1, -2 ]
+					} ]
+
+			  	
+
+  	});
+				var keys = new KeyTable( {
+					"table": document.getElementById('example')
+				} );
+				
+				/* Apply a return key event to each cell in the table */
+				keys.event.action( null, null, function (nCell) {
+					/* Block KeyTable from performing any events while jEditable is in edit mode */
+					keys.block = true;
+					
+					/* Initialise the Editable instance for this table */
+					$(nCell).editable( function (sVal) {
+						/* Submit function (local only) - unblock KeyTable */
+						keys.block = false;
+						return sVal;
+					}, { 
+						"onblur": 'submit', 
+						"onreset": function(){ 
+							/* Unblock KeyTable, but only after this 'esc' key event has finished. Otherwise
+							 * it will 'esc' KeyTable as well
+							 */
+							setTimeout( function () {keys.block = false;}, 0); 
+						}
+					} );
+					
+					/* Dispatch click event to go into edit mode - Saf 4 needs a timeout... */
+					setTimeout( function () { $(nCell).click(); }, 0 );
+				} );
+			
+			} );
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="block-documentation-more">
+            <ul>
+                <li><strong>Sensio</strong></li>
+                <li><a href="http://trainings.sensiolabs.com">Trainings</a></li>
+                <li><a href="http://books.sensiolabs.com">Books</a></li>
+				<li><strong>{{test}}</strong></li>
+			</ul>
+        </div>
+		{{ test }}
+{% for i in 0..10 %}
+  * {{ i }}
+{% endfor %}
+{% endblock %}
